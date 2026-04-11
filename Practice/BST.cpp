@@ -87,15 +87,82 @@ class BST{
         return false;
     }
 
-    // remove: rValue => void
+    // remove: rValue => bool
     /*
     1. No child
     2. Only right subtree
     3. Only left subtree
     4. Has both subtrees
     */
-    void remove(int rValue){
-        Node* max = root;
+    bool remove(int target){
+        Node* temp = root;
+        if (root == NULL){
+            return false;
+        }
+        
+        // find target
+        while (temp != NULL && temp->value != target){
+            if (target > temp->value){
+                temp = temp->right;
+            }else{
+                temp = temp->left;
+            }
+        }
+
+        if (temp == NULL){
+            return false;
+        }
+
+        // find replace
+        // case 4 will be included in case 2,3
+        if (temp->right != NULL && temp->left != NULL){
+            Node* replace = temp->right;
+            while (replace->left != NULL){
+                replace = replace->left;
+            }
+
+            temp->value = replace->value;
+            temp = replace;
+        }
+        
+        // case 1
+        if (temp->right == NULL && temp->left == NULL){
+            if(temp->parent == NULL){
+                root = NULL;
+            }
+            else if (temp == temp->parent->left){
+                temp->parent->left = NULL;
+            }else{
+                temp->parent->right = NULL;
+            }
+        }
+        
+        // case 2,3
+        else{
+            Node* child = NULL;
+            if(temp->left != NULL){
+                child = temp->left;
+            }else{
+                child = temp->right;
+            }
+
+            child->parent = temp->parent;
+
+            if(temp->parent == NULL){
+                root = child;
+            }
+            else if (temp == temp->parent->left){
+                temp->parent->left = child;
+            }else{
+                temp->parent->right = child;
+            }
+        }
+
+        delete temp;
+        return true;
     }
 
+    void preorder(){
+        Node* temp = root;
+    }
 };
