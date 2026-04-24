@@ -126,6 +126,7 @@ class BST{
         }
         
         // case 1
+        // left에 Null값 업데이트하기 (segmentation error 방지)
         if (temp->right == NULL && temp->left == NULL){
             if(temp->parent == NULL){
                 root = NULL;
@@ -162,7 +163,13 @@ class BST{
         return true;
     }
 
-    void preorder(){
+    void preorder(Node* root = NULL){
         Node* temp = root;
+        if (temp = NULL){
+            return;
+        }
+        cout << temp->value << " " << "\n";
+        preorder(temp->left);
+        preorder(temp->right);
     }
 };
