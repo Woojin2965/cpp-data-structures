@@ -7,14 +7,15 @@ Iterative로 연습
 Remove #4로 짜기 
 */ 
 
+template <typename T>
 class Node{  
     public:
-    int value;
-    Node* parent;
-    Node* left;
-    Node* right;
+    T value;
+    Node<T>* parent;
+    Node<T>* left;
+    Node<T>* right;
 
-    Node(int value){
+    Node(T value){
         this->value = value;
         parent = NULL;
         left = NULL;
@@ -22,22 +23,23 @@ class Node{
     }
 };
 
+template <typename T>
 class BST{
     public:
-    Node* root = NULL;
+    Node<T>* root = NULL;
 
     // insert: iValue =>  void
-    void insert(int iValue){
+    void insert(T iValue){
         if (root == NULL){
-            root = new Node(iValue);
+            root = new Node<T>(iValue);
             return;
         }
 
-        Node* temp = root;
+        Node<T>* temp = root;
         while(true){
             if (iValue < temp->value){
                 if(temp->left == NULL){
-                    temp->left = new Node(iValue);
+                    temp->left = new Node<T>(iValue);
                     temp->left->parent = temp;
                     return;
                 }
@@ -46,7 +48,7 @@ class BST{
 
             else if (iValue > temp->value){
                 if(temp->right == NULL){
-                    temp->right = new Node(iValue);
+                    temp->right = new Node<T>(iValue);
                     temp->right->parent = temp;
                     return;
                 }
@@ -68,8 +70,8 @@ class BST{
     3. sValue < root->value인 경우 
     4. sValue > root->value인 경우
     */
-    bool contains(int sValue){
-        Node* temp = root;
+    bool contains(T sValue){
+        Node<T>* temp = root;
 
         while (temp != NULL){
             if (sValue == temp->value){
@@ -94,8 +96,8 @@ class BST{
     3. Only left subtree
     4. Has both subtrees
     */
-    bool remove(int target){
-        Node* temp = root;
+    bool remove(T target){
+        Node<T>* temp = root;
         if (root == NULL){
             return false;
         }
@@ -116,7 +118,7 @@ class BST{
         // find replace
         // case 4 will be included in case 2,3
         if (temp->right != NULL && temp->left != NULL){
-            Node* replace = temp->right;
+            Node<T>* replace = temp->right;
             while (replace->left != NULL){
                 replace = replace->left;
             }
@@ -140,7 +142,7 @@ class BST{
         
         // case 2,3
         else{
-            Node* child = NULL;
+            Node<T>* child = NULL;
             if(temp->left != NULL){
                 child = temp->left;
             }else{
@@ -163,9 +165,10 @@ class BST{
         return true;
     }
 
-    void preorder(Node* root = NULL){
-        Node* temp = root;
-        if (temp = NULL){
+    // tree.preorder(tree.root) 로 부르기
+    void preorder(Node<T>* root = NULL){
+        Node<T>* temp = root;
+        if (temp == NULL){ // = 로 써서 NULL에서 터졌었음
             return;
         }
         cout << temp->value << " " << "\n";
@@ -173,3 +176,14 @@ class BST{
         preorder(temp->right);
     }
 };
+
+int main(){
+    BST<int> tree;
+    tree.insert(5);
+    tree.insert(3);
+    tree.insert(8);
+    tree.remove(5);
+    tree.preorder(tree.root);           // 8 3
+    cout << tree.contains(3) << "\n";  // 1
+    return 0;
+}
