@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 #include <stdexcept>
+#define EMPTY -1
 
 class MaxHeap{
     public:
@@ -42,12 +43,13 @@ class MaxHeap{
         }
 
         arr[size] = iValue;
-        
-        while (size > 0){
-            int parent = getParent(size);
-            if(arr[size] > arr[parent]){
-                swap(size, parent);
-                size = parent;
+
+        int cur = size;
+        while (cur > 0){
+            int parent = getParent(cur);
+            if(arr[cur] > arr[parent]){
+                swap(cur, parent);
+                cur = parent;
             }else{
                 break;
             }
@@ -58,7 +60,7 @@ class MaxHeap{
 
     int pop(){
         if (size == 0){
-            return;
+            return EMPTY;
             // Update here w/ stdexept later
         }
 
@@ -86,8 +88,8 @@ class MaxHeap{
             }else{
                 break;
             }
-            return maxValue;
         }
+        return maxValue;
     }
 };
 
