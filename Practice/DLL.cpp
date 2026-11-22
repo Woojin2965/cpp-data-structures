@@ -42,8 +42,8 @@ class DLL {
 
         if (removingValue == head -> value) {
             if (head == tail) {
-                head == NULL;
-                tail == NULL;
+                head = NULL;
+                tail = NULL;
             }
             else{
                 head = head -> next;
@@ -72,4 +72,24 @@ class DLL {
         }
         return false;
     }
+
+    void Print() {
+        Node* n = head;
+        while (n != NULL) {
+            cout << n -> value << " ";
+            n = n -> next;
+        }
+        cout << "\n";
+    }
+
 };
+
+int main(){
+    DLL list;
+    list.Add(1);
+    list.Add(2);
+    list.Add(3);
+    list.Remove(1);
+    list.Print();
+    return 0;
+}
